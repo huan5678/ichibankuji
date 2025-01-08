@@ -68,7 +68,9 @@ function startDrag(e: MouseEvent | TouchEvent) {
 
 // 重置狀態
 function resetFlipbook() {
-  currentPage.value = 0
+  if (flipbook.value) {
+    flipbook.value.goToPage(1)
+  }
   isFullyRevealed.value = false
   isDragging.value = false
   emit('update:modelValue', false)
@@ -81,12 +83,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="transform-style-3d relative h-50 w-150 select-none overflow-hidden border border-foreground rounded-2 shadow-md">
+  <div class="transform-style-3d relative h-50 w-150 select-none border border-foreground rounded-2 shadow-md">
     <!-- 基礎票面 -->
     <div class="absolute h-full w-full">
       <div class="h-full flex items-center rounded-2">
-        <div class="text-foreground-700 flex flex-[2] items-center justify-center text-5xl font-bold">
-          一番賞
+        <div class="text-foreground-700 flex flex-[2] flex-col items-center justify-center gap-2">
+          <h2 class="text-5xl font-bold">
+            一番賞
+          </h2>
+          <div class="pointer-events-none flex items-center whitespace-nowrap text-base text-gray-600">
+            <span class="hidden md:inline">由左向右撕開</span>
+            <span class="md:hidden">向右滑動撕開</span>
+            <div class="ml-2 text-xl">
+              →
+            </div>
+          </div>
         </div>
         <div class="relative h-full flex flex-[3] items-end justify-between border-l-2 border-gray-300 border-l-dashed py-4 pl-5 pr-2 text-gray-5">
           <div class="absolute left-5 top-0 font-black -translate-y-20">
@@ -105,38 +116,19 @@ onMounted(() => {
 
     <!-- 撕開層 -->
     <!-- Flipbook 撕開效果 -->
-    <div class="absolute h-full w-150">
+    <div class="absolute h-full w-[65%]">
       <Flipbook
         ref="flipbook"
         v-model:page="currentPage"
-        class="h-55 w-full translate-x-[8rem]"
+        class="h-full w-full translate-x-[13rem]"
         :single-page="true"
         :pages="[
-          'https://picsum.photos/700/400?random=1', null]"
+          'ichiban-ticket.png', null]"
         :click-to-zoom="false"
         forward-direction="left"
         @init="handleInit"
-        @page-change="handlePageChange"
-      >
-        <!-- 自定義控制區域 -->
-        <template #default="flipbook">
-          <div
-            v-if="!isFullyRevealed"
-            class="absolute left-0 top-0 z-10 h-full cursor-grab active:cursor-grabbing"
-            @mousedown="startDrag"
-            @touchstart="startDrag"
-          >
-            <!-- 提示文字 -->
-            <div class="pointer-events-none absolute right-0 top-1/2 flex translate-x-1/2 items-center whitespace-nowrap text-base text-gray-600 -translate-y-1/2">
-              <span class="hidden md:inline">由左向右撕開</span>
-              <span class="md:hidden">向右滑動撕開</span>
-              <div class="ml-2 text-xl">
-                →
-              </div>
-            </div>
-          </div>
-        </template>
-      </Flipbook>
+        @flip-left-start="handlePageChange"
+      />
     </div>
     <!-- 重置按鈕 -->
     <Button
@@ -187,5 +179,9 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.click-to-flip {
+  display: none;
 }
 </style>

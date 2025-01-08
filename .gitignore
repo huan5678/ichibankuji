@@ -18,6 +18,10 @@ logs
 .fleet
 .idea
 
+# Mac device temp files
+*.DS_Store
+._*
+
 # Local env files
 .env
 .env.*
