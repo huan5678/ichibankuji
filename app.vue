@@ -29,8 +29,8 @@ useServerHead({
   },
 })
 
-const title = 'Nuxt Shadcn UI - Dashboard Template'
-const description = 'This dashboard, built with Nuxt, Shadcn UI, and UnoCSS. It includes a dark mode toggle and is optimized for performance and data efficiency.'
+const title = '抽起來抽就對了'
+const description = '這是一個抽獎系統的網頁應用，有各種類型的抽獎系統'
 
 useSeoMeta({
   title,

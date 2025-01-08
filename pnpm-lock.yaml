@@ -51,6 +51,9 @@ importers:
       '@unocss/nuxt':
         specifier: ^0.65.2
         version: 0.65.2(magicast@0.3.5)(postcss@8.4.49)(rollup@4.29.1)(vite@5.4.11(@types/node@22.10.2)(terser@5.37.0))(vue@3.5.13(typescript@5.7.2))(webpack@5.97.1(esbuild@0.24.2))
+      '@unocss/preset-web-fonts':
+        specifier: ^0.65.4
+        version: 0.65.4
       '@vee-validate/zod':
         specifier: ^4.15.0
         version: 4.15.0(vue@3.5.13(typescript@5.7.2))(zod@3.24.1)
@@ -1715,6 +1718,9 @@ packages:
   '@unocss/core@0.65.2':
     resolution: {integrity: sha512-37zj1w/6TENsUMzRRmlH5LqUcLGTTjGHrUeZ5KZyeDk+osB/rHSCw0VqqqvL6a7cOHgaW88JgfgKDt5ijRZyFA==}
 
+  '@unocss/core@0.65.4':
+    resolution: {integrity: sha512-a2JOoFutrhqd5RgPhIR5FIXrDoHDU3gwCbPrpT6KYTjsqlSc/fv02yZ+JGOZFN3MCFhCmaPTs+idDFtwb3xU8g==}
+
   '@unocss/eslint-plugin@0.65.2':
     resolution: {integrity: sha512-qs+GWA1LrPS5ffuWIdEox6nFnABl/MHBEglhq6ogmVS4gVv5AHoQCdwlSEXbL96g3vmR7WplSO8VRVihi0lxWQ==}
     engines: {node: '>=14'}
@@ -1754,6 +1760,9 @@ packages:
 
   '@unocss/preset-web-fonts@0.65.2':
     resolution: {integrity: sha512-Pl0sKjhrb6FuDID3PMwGflZXwSVW1G1vZEwCd0yEwYH92421VEfK5D073cUtZ1l6irqIA3aux9uMWA9iKtQj7A==}
+
+  '@unocss/preset-web-fonts@0.65.4':
+    resolution: {integrity: sha512-UB/MvXHUTqMNVH1bbiKZ/ZtZUI5tsYlTYAvBrnXPO1Cztuwr8hJKSi4RCfI9g+YYtKHX4uYuxUbW5bcN85gmBQ==}
 
   '@unocss/preset-wind@0.65.2':
     resolution: {integrity: sha512-qNBJ6pnh9EYbTztmeJ+uZOB3TPx/JnQVHPGBBRD/v2AT11YR0/umdSKefIHbvXKuw/5/+JAwbFx/jSYu1naG6w==}
@@ -7245,6 +7254,8 @@ snapshots:
 
   '@unocss/core@0.65.2': {}
 
+  '@unocss/core@0.65.4': {}
+
   '@unocss/eslint-plugin@0.65.2(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)':
     dependencies:
       '@typescript-eslint/utils': 8.18.2(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)
@@ -7344,6 +7355,11 @@ snapshots:
   '@unocss/preset-web-fonts@0.65.2':
     dependencies:
       '@unocss/core': 0.65.2
+      ofetch: 1.4.1
+
+  '@unocss/preset-web-fonts@0.65.4':
+    dependencies:
+      '@unocss/core': 0.65.4
       ofetch: 1.4.1
 
   '@unocss/preset-wind@0.65.2':

@@ -54,8 +54,8 @@ export default defineConfig({
     presetTypography(),
     presetWebFonts({
       fonts: {
-        sans: 'Chivo',
-        mono: 'Chivo Mono',
+        sans: ['Noto Sans TC', 'serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
     }),
     presetAnimations(),

@@ -10,6 +10,7 @@ interface Prize {
 
 // 定義組件的 props
 const props = defineProps<{
+  index: number
   prize: Prize
   modelValue?: boolean // v-model 用於控制是否已撕開
 }>()
@@ -52,20 +53,6 @@ function handlePageChange() {
   }, 500)
 }
 
-// 開始拖動
-function startDrag(e: MouseEvent | TouchEvent) {
-  if (isFullyRevealed.value)
-    return
-
-  e.preventDefault()
-  isDragging.value = true
-
-  // 觸發翻頁
-  if (flipbook.value) {
-    flipbook.value.flipLeft()
-  }
-}
-
 // 重置狀態
 function resetFlipbook() {
   if (flipbook.value) {
@@ -87,10 +74,13 @@ onMounted(() => {
     <!-- 基礎票面 -->
     <div class="absolute h-full w-full">
       <div class="h-full flex items-center rounded-2">
-        <div class="text-foreground-700 flex flex-[2] flex-col items-center justify-center gap-2">
+        <div class="text-foreground-700 flex flex-[2] flex-col items-center justify-center gap-4">
           <h2 class="text-5xl font-bold">
             一番賞
           </h2>
+          <p class="text-2xl font-mono">
+            No. {{ index }}
+          </p>
           <div class="pointer-events-none flex items-center whitespace-nowrap text-base text-gray-600">
             <span class="hidden md:inline">由左向右撕開</span>
             <span class="md:hidden">向右滑動撕開</span>
@@ -99,9 +89,9 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div class="relative h-full flex flex-[3] items-end justify-between border-l-2 border-gray-300 border-l-dashed py-4 pl-5 pr-2 text-gray-5">
-          <div class="absolute left-5 top-0 font-black -translate-y-20">
-            <span class="text-[15rem]">
+        <div class="relative h-full flex flex-[3] items-end justify-between border-l-2 border-gray-300 border-l-dashed py-4 pl-8 pr-2 text-gray-5">
+          <div class="absolute left-5 top-0 font-800 -translate-y-20">
+            <span class="text-[15rem] font-mono">
               {{ prize.number }}
             </span>
             <span class="text-xl">賞</span>
@@ -114,7 +104,6 @@ onMounted(() => {
       <!-- 內容遮罩 -->
     </div>
 
-    <!-- 撕開層 -->
     <!-- Flipbook 撕開效果 -->
     <div class="absolute h-full w-[65%]">
       <Flipbook
