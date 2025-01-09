@@ -16,9 +16,12 @@ const prizes: Prize[] = [
 
 const currentPrize = ref<Prize>(prizes[0])
 const isRevealed = ref(false)
+const index = ref(0)
 
 function randomizePrize() {
-  currentPrize.value = prizes[Math.floor(Math.random() * prizes.length)]
+  const randomIndex = Math.floor(Math.random() * prizes.length)
+  currentPrize.value = prizes[randomIndex]
+  index.value = randomIndex
 }
 
 function handleReset() {
@@ -33,6 +36,7 @@ function handleReset() {
       <KujiTicket
         v-model="isRevealed"
         :prize="currentPrize"
+        :index="index"
         @reset="handleReset"
       />
     </div>

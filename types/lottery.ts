@@ -1,8 +1,9 @@
 // types/lottery.ts
 export interface Prize {
   id: string
-  name: string
-  image: string
+  prizeName: string
+  prizeImage: string
+  prizeRank: string
 }
 
 export interface Position {

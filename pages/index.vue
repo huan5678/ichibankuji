@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Position } from '~/types/lottery'
+import type { Position, Prize } from '~/types/lottery'
 import { computed } from 'vue'
 import { useLottery } from '~/composables/useLottery'
 
@@ -35,27 +35,37 @@ async function handleDrawClick() {
   }
 }
 
-const editingPrize = computed(() => {
-  if (!editingId.value)
-    return undefined
-  const prize = prizes.value.find(p => p.id === editingId.value)
-  return prize ? { name: prize.name, image: prize.image } : undefined
-})
-
-function handlePrizeSubmit(data: { name: string, image: string }) {
-  if (editingId.value) {
-    updatePrize(editingId.value, data.name, data.image)
-  }
-  else {
-    addPrize(data.name, data.image)
-  }
-  resetForm()
+const initialData = {
+  prizeName: '',
+  prizeImage: 'default-prize-image.png',
+  prizeRank: '',
 }
 
 const formData = ref({
-  name: '',
-  image: '',
+  id: crypto.randomUUID(),
+  prizeName: initialData.prizeName,
+  prizeImage: initialData.prizeImage,
+  prizeRank: initialData.prizeRank,
 })
+
+const editingPrize = computed(() => {
+  if (!editingId.value)
+    return formData.value
+  const prize = prizes.value.find(p => p.id === editingId.value)
+  return prize ? { id: prize.id, prizeName: prize.prizeName, prizeImage: prize.prizeImage, prizeRank: prize.prizeRank } : undefined
+})
+
+function handlePrizeSubmit(data: Prize) {
+  if (editingId.value) {
+    updatePrize(data)
+  }
+  else {
+    const id = crypto.randomUUID()
+    data.id = id
+    addPrize(data)
+  }
+  resetForm()
+}
 
 const layout = computed(() => createSquareLayout(prizes.value.length))
 
@@ -73,7 +83,7 @@ function cardStyle(pos: Position) {
 }
 
 function resetForm() {
-  formData.value = { name: '', image: '' }
+  formData.value = { prizeName: initialData.prizeName, prizeImage: initialData.prizeImage, prizeRank: initialData.prizeRank, id: crypto.randomUUID() }
   editingId.value = undefined
 }
 
@@ -119,10 +129,13 @@ onMounted(() => {
         :style="cardStyle(pos)"
       >
         <div class="card-front">
-          <img :src="prizes[index]?.image" :alt="prizes[index]?.name">
-          <div class="prize-name">
-            {{ prizes[index]?.name }}
-          </div>
+          <h2 class="text-2xl font-bold">
+            {{ prizes[index]?.prizeRank }} <span class="text-base">賞</span>
+          </h2>
+          <img :src="prizes[index]?.prizeImage" :alt="prizes[index]?.prizeName">
+          <h3 class="text-lg">
+            {{ prizes[index]?.prizeName }}
+          </h3>
         </div>
         <div class="card-back" />
       </div>
@@ -202,14 +215,7 @@ onMounted(() => {
 }
 
 .card-front {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
+  @apply border border-foreground rounded-md p-4 space-y-4 text-center;
 }
 
 .card-back {

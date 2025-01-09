@@ -76,21 +76,22 @@ export function useLottery() {
   }
 
   // 添加獎品
-  const addPrize = (name: string, image: string) => {
+  const addPrize = ({ prizeName, prizeImage, prizeRank, id }: Prize) => {
     const newPrize: Prize = {
-      id: Date.now().toString(),
-      name,
-      image,
+      id,
+      prizeName,
+      prizeImage,
+      prizeRank,
     }
     prizes.value.push(newPrize)
     saveGameData()
   }
 
   // 更新獎品
-  const updatePrize = (id: string, name: string, image: string) => {
+  const updatePrize = ({ id, prizeName, prizeImage, prizeRank }: Prize) => {
     const index = prizes.value.findIndex(p => p.id === id)
     if (index !== -1) {
-      prizes.value[index] = { ...prizes.value[index], name, image }
+      prizes.value[index] = { ...prizes.value[index], prizeName, prizeImage, prizeRank }
       saveGameData()
     }
   }

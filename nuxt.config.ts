@@ -1,9 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
   build: {
     transpile: ['flipbook-vue'],
   },
+
   modules: [
     '@unocss/nuxt',
     'shadcn-nuxt',
@@ -41,6 +43,9 @@ export default defineNuxtConfig({
   imports: {
     dirs: [
       './lib',
+      'constants',
     ],
   },
+
+  compatibilityDate: '2025-01-09',
 })
