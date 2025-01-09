@@ -207,7 +207,6 @@ export function useLottery() {
     startGame,
     resetGame,
     animate,
-    shuffle,
     createSquareLayout,
     loadGameData,
     saveGameData,

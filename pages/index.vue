@@ -16,7 +16,6 @@ const {
   updatePrize,
   startGame,
   resetGame,
-  shuffle,
   loadGameData,
   createSquareLayout,
 } = useLottery()
@@ -105,7 +104,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="lottery-container">
+  <div class="mx-auto p-4 container space-y-12">
     <!-- 表單部分 -->
     <PrizeForm
       :editing-id="editingId"
@@ -114,32 +113,35 @@ onMounted(() => {
       @cancel="cancelEdit"
     />
     <!-- 抽獎區域 -->
-    <div
+    <ul
+      v-auto-animate
       class="lottery-grid"
       :style="gridStyle"
     >
-      <div
+      <li
         v-for="(pos, index) in layout.positions"
         :key="index"
         class="lottery-card"
         :class="{
-          'card-flipped': isFlipped(index),
-          'picked': isPicked(prizes[index]?.id),
+          current: currentIndex === index,
+          picked: isPicked(prizes[index]?.id),
         }"
         :style="cardStyle(pos)"
       >
-        <div class="card-front">
-          <h2 class="text-2xl font-bold">
-            {{ prizes[index]?.prizeRank }} <span class="text-base">賞</span>
-          </h2>
-          <img :src="prizes[index]?.prizeImage" :alt="prizes[index]?.prizeName">
-          <h3 class="text-lg">
+        <div
+          class="card-front"
+          :class="{ 'card-flipped': isFlipped(index) }"
+          @click="isFlipped(index) && isAnimating ? null : currentIndex = index"
+        >
+          <p class="text-2xl font-bold">
             {{ prizes[index]?.prizeName }}
-          </h3>
+          </p>
         </div>
-        <div class="card-back" />
-      </div>
-    </div>
+        <div
+          class="card-back"
+        />
+      </li>
+    </ul>
 
     <!-- 控制按鈕 -->
     <div class="flex justify-center gap-4">
@@ -149,12 +151,6 @@ onMounted(() => {
           洗牌次數: {{ shuffleCount }}
         </p>
       </div>
-      <Button
-        :disabled="isAnimating || prizes.length === 0"
-        @click="shuffle"
-      >
-        洗牌
-      </Button>
       <Button
         :disabled="isAnimating || prizes.length === 0 || availablePrizes.length === 0"
         @click="handleDrawClick"
@@ -172,45 +168,34 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.lottery-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.prize-form {
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.image-preview {
-  max-width: 100px;
-  margin-top: 10px;
-}
-
 .lottery-grid {
-  width: 100%;
-  aspect-ratio: 1;
-  max-width: 800px;
-  margin: 0 auto;
+  @apply aspect-square w-full max-w-7xl mx-auto;
 }
 
 .lottery-card {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  @apply relative w-full h-full;
   transform-style: preserve-3d;
-  transition: transform 0.6s;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lottery-card:not(.picked):not(.current):hover {
+  @apply translateY(-5px) shadow-md;
+}
+
+.current {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.current.card-flipped {
+  transform: rotateY(180deg) scale(1.05);
 }
 
 .card-front,
 .card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+  @apply absolute w-full h-full flex flex-col justify-center items-center transition-all duration-300 ease;
   backface-visibility: hidden;
 }
 
@@ -219,22 +204,23 @@ onMounted(() => {
 }
 
 .card-back {
-  background: #2c3e50;
-  transform: rotateY(180deg);
-  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @apply transform rotateY(180deg) rounded-md text-2xl font-bold text-white bg-gradient-from-dark bg-gradient-to-lightblue bg-gradient-to-br;
 }
 
 .card-flipped {
-  transform: rotateY(180deg);
+  @apply transform rotateY(180deg);
 }
 
 .picked {
-  opacity: 0.5;
-  pointer-events: none;
+  @apply opacity-50 pointer-events-none scale-90 transition-all duration-300 ease;
+}
+
+.picked.card-flipped {
+  @apply transform rotateY(180deg) scale(0.95);
 }
 
 .controls {
-  margin-top: 20px;
-  text-align: center;
+  @apply text-center mt-5;
 }
 </style>

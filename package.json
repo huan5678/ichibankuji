@@ -44,6 +44,7 @@
     "format": "eslint --fix ."
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "@internationalized/date": "^3.6.0",
     "@tanstack/vue-table": "^8.20.5",
     "@unovis/ts": "^1.5.0",

@@ -1,13 +1,18 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <div>
-    <header class="py-4 border-b mb-4">
-      <h1 class="text-center">抽獎系統</h1>
-    </header>
-    <main>
-      <slot />
-    </main>
-  </div>
+  <SidebarProvider>
+    <LayoutAppSidebar />
+    <SidebarInset>
+      <LayoutHeader />
+      <div class="min-w-0 w-full flex-1 overflow-x-auto p-4 lg:p-6">
+        <slot />
+      </div>
+    </SidebarInset>
+  </SidebarProvider>
 </template>
 
 <style scoped>
+
 </style>
