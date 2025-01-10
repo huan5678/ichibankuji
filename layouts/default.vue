@@ -2,15 +2,14 @@
 </script>
 
 <template>
-  <SidebarProvider>
-    <LayoutAppSidebar />
-    <SidebarInset>
+  <main>
+    <div>
       <LayoutHeader />
-      <div class="min-w-0 w-full flex-1 overflow-x-auto p-4 lg:p-6">
-        <slot />
-      </div>
-    </SidebarInset>
-  </SidebarProvider>
+    </div>
+    <div>
+      <slot />
+    </div>
+  </main>
 </template>
 
 <style scoped>
