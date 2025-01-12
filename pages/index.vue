@@ -205,7 +205,7 @@ onMounted(() => {
 
 .card-back {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  @apply transform rotateY(180deg) rounded-md text-2xl font-bold text-white bg-gradient-from-dark bg-gradient-to-lightblue bg-gradient-to-br;
+  @apply transform rotateY(180deg) rounded-md text-2xl font-bold text-white bg-background;
 }
 
 .card-flipped {
